@@ -2,7 +2,7 @@
 /*
  * Plugin Name:  Better Menu Widget
  * Plugin URI:   http://traceyholinka.com/wordpress-plugins/better-menu-widget/
- * Description:  Better Menu Widget makes it easy to customize your menu widgets by adding css styles and a heading link.
+ * Description:  [Current] Better Menu Widget makes it easy to customize your menu widgets by adding css styles and a heading link.
  * Version:      1.4
  * Author:       Tracey Holinka
  * Author URI:   http://traceyholinka.com
@@ -25,11 +25,13 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *  
 */
- 
+
 if ( !class_exists('Better_Menu_Widget') ) {
 
+	//load the widget
 	add_action('widgets_init', 'load_better_menu_widget');
 
+	// Register the widget
 	function load_better_menu_widget() {
 		register_widget( 'Better_Menu_Widget' );
 	}
@@ -37,56 +39,52 @@ if ( !class_exists('Better_Menu_Widget') ) {
 	class Better_Menu_Widget extends WP_Widget {
 
 		function __construct() {
-
 			load_plugin_textdomain( 'better-menu-widget', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-			
-				$widget_ops = array( 'classname' => 'better-menu-widget', 'description' => __('Add one of your custom menus as a widget.', 'better-menu-widget') );
-				$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'better-menu-widget' );
-				$this->WP_Widget( 'better-menu-widget', __('Better Menu', 'better-menu-widget'), $widget_ops, $control_ops );	
+			$widget_ops = array( 'classname' => 'better-menu-widget', 'description' => __('Add one of your custom menus as a widget.', 'better-menu-widget') );
+			$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'better-menu-widget' );
+			parent::__construct( 'better-menu-widget', __('Better Menu', 'better-menu-widget'), $widget_ops, $control_ops );
 		}
 
-		function widget($args, $instance) {
-			
+		public function widget($args, $instance) {
+
 			$nav_menu = wp_get_nav_menu_object( $instance['nav_menu'] ); // Get menu
-	
+
 			if ( !$nav_menu )
 				return;
-	
+
 			$instance['title'] = apply_filters('widget_title', $instance['title'], $instance, $this->id_base);
-	
+
 			echo $args['before_widget'];
-	
+
 			if ( !empty($instance['title']) && !empty($instance['title_url']) )
 				echo $args['before_title'] . '<a href="' . esc_url( $instance['title_url'] ) . '">' . esc_html( $instance['title'] ) . '</a>' . $args['after_title'];
-	
+
 			if ( !empty($instance['title']) && empty($instance['title_url']) )
 				echo $args['before_title'] . esc_html( $instance['title'] ) . $args['after_title'];
-	
+
 			wp_nav_menu( array( 'fallback_cb' => '', 'menu' => $nav_menu, 'menu_class' => esc_attr( $instance['menu_class'] ), 'container' => false ) );
-	
+
 			echo $args['after_widget'];
 		}
 
-		// widget admin
-			
-		function update( $new_instance, $old_instance ) {
+		public function update( $new_instance, $old_instance ) {
 			$instance['title'] = sanitize_text_field( $new_instance['title'] );
 			$instance['nav_menu'] = (int) $new_instance['nav_menu'];
 			$instance['title_url'] = esc_html( $new_instance['title_url'] );
 			$instance['menu_class'] = sanitize_html_class( $new_instance['menu_class'] );
 			return $instance;
 		}
-	
-		function form( $instance ) {
+
+		public function form( $instance ) {
 			$title = isset( $instance['title'] ) ? $instance['title'] : '';
 			$nav_menu = isset( $instance['nav_menu'] ) ? $instance['nav_menu'] : '';
 			$title_url = isset( $instance['title_url'] ) ? $instance['title_url'] : '';
 			$menu_class = isset( $instance['menu_class'] ) ? $instance['menu_class'] : 'sub-menu';
-	
-			// Get menus
+
+			// Get menus list
 			$menus = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
-	
-			// If no menus exists, direct the user to create some.
+
+			// If no menu exists, direct the user to create some.
 			if ( !$menus ) {
 				echo '<p>'. sprintf( __('No menus have been created yet. <a href="%s">Create some</a>.', 'better-menu-widget'), admin_url('nav-menus.php') ) .'</p>';
 				return;
@@ -96,7 +94,7 @@ if ( !class_exists('Better_Menu_Widget') ) {
 			<p><label for="<?php echo $this->get_field_id('title_url'); ?>"><?php _e('Title URL:', 'better-menu-widget') ?></label><input type="text" class="widefat" id="<?php echo $this->get_field_id('title_url'); ?>" name="<?php echo $this->get_field_name('title_url'); ?>" value="<?php echo esc_url( $title_url ); ?>" /></p>
 			<p><label for="<?php echo $this->get_field_id('nav_menu'); ?>"><?php _e('Select Menu:', 'better-menu-widget'); ?></label>
 				<select id="<?php echo $this->get_field_id('nav_menu'); ?>" name="<?php echo $this->get_field_name('nav_menu'); ?>">
-			<?php 
+			<?php
 				foreach ( $menus as $menu ) {
 					$selected = $nav_menu == $menu->term_id ? ' selected="selected"' : '';
 					echo '<option'. $selected .' value="'. $menu->term_id .'">'. $menu->name .'</option>';
@@ -110,6 +108,6 @@ if ( !class_exists('Better_Menu_Widget') ) {
 		}
 
 	} // end class
-	
+
 } // end if
 ?>
