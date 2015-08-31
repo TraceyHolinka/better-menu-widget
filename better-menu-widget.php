@@ -3,7 +3,7 @@
  * Plugin Name:  Better Menu Widget
  * Plugin URI:   http://traceyholinka.com/wordpress-plugins/better-menu-widget/
  * Description:  Better Menu Widget makes it easy to customize your menu widgets by adding css styles and a heading link.
- * Version:      1.4.1
+ * Version:      1.5
  * Author:       Tracey Holinka
  * Author URI:   http://traceyholinka.com
  * Author Email: tracey.holinka@gmail.com
@@ -54,6 +54,7 @@ if ( ! class_exists( 'Better_Menu_Widget' ) ) {
 		}
 
 		/**
+		 *
 		 * Widget display.
 		 *
 		 * Display widget on front-end.
@@ -62,6 +63,7 @@ if ( ! class_exists( 'Better_Menu_Widget' ) ) {
 		 *
 		 * @param array $args
 		 * @param array $instance
+		 *
 		 */
 
 		public function widget( $args, $instance ) {
@@ -112,9 +114,37 @@ if ( ! class_exists( 'Better_Menu_Widget' ) ) {
 			$instance['title']      = sanitize_text_field( $new_instance['title'] );
 			$instance['nav_menu']   = (int) $new_instance['nav_menu'];
 			$instance['title_url']  = esc_html( $new_instance['title_url'] );
-			$instance['menu_class'] = sanitize_html_class( $new_instance['menu_class'] );
+			$instance['menu_class'] = $this->update_classes( $new_instance );
 
 			return $instance;
+		}
+
+		/**
+		 *
+		 * Update classes.
+		 *
+		 * Update menu classes and sanitizes them.
+		 *
+		 * @since 1.5
+		 * @link https://wordpress.org/support/topic/multiple-css-classes?replies=7#post-7319138
+		 *
+		 * @param $new_instance
+		 *
+		 * @return string
+		 *
+		 */
+
+		public function update_classes( $new_instance ) {
+			$menu_class_strip = preg_replace( '/\s\s+/', ' ', $new_instance['menu_class'] );
+			$output           = '';
+			$classes          = explode( " ", $menu_class_strip );
+			foreach ( $classes as $class ) {
+				$output .= sanitize_html_class( $class ) . ' ';
+			}
+			$output                 = trim( $output, ' ' );
+			$instance['menu_class'] = $output;
+
+			return $output;
 		}
 
 		/**
@@ -145,6 +175,7 @@ if ( ! class_exists( 'Better_Menu_Widget' ) ) {
 
 				return;
 			}
+
 			?>
 
 			<p><label
@@ -169,16 +200,17 @@ if ( ! class_exists( 'Better_Menu_Widget' ) ) {
 					?>
 				</select></p>
 			<p><label
-					for="<?php echo $this->get_field_id( 'menu_class' ); ?>"><?php _e( 'Menu Class:', 'better-menu-widget' ) ?></label><input
+					for="<?php echo $this->get_field_id( 'menu_class' ); ?>"><?php _e( 'Menu Classes:', 'better-menu-widget' ) ?></label><input
 					type="text" class="widefat" id="<?php echo $this->get_field_id( 'menu_class' ); ?>"
 					name="<?php echo $this->get_field_name( 'menu_class' ); ?>"
 					value="<?php echo esc_attr( $menu_class ); ?>"/>
-				<small><?php _e( 'CSS class to use for the ul menu element.', 'better-menu-widget' ); ?></small>
+				<small><?php _e( 'CSS classes to use for the ul menu element.', 'better-menu-widget' ); ?></small>
 			</p>
 			<p class="credits">
 				<small><?php _e( 'Developed by', 'better-menu-widget' ); ?> <a href="http://traceyholinka.com/"
 				                                                               rel="nofollow">Tracey Holinka</a></small>
 			</p>
+
 			<?php
 		}
 
