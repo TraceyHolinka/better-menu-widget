@@ -135,13 +135,13 @@ if ( ! class_exists( 'Better_Menu_Widget' ) ) {
 		 */
 
 		public function update_classes( $new_instance ) {
-			$menu_class_strip = preg_replace( '/\s\s+/', ' ', $new_instance['menu_class'] );
-			$output           = '';
-			$classes          = explode( " ", $menu_class_strip );
+			$output  = '';
+			$classes = explode( " ", preg_replace( '/\s\s+/', ' ', $new_instance['menu_class'] ) );
 			foreach ( $classes as $class ) {
 				$output .= sanitize_html_class( $class ) . ' ';
 			}
-			$output                 = trim( $output, ' ' );
+			// In some cases an extra space can occur if a bad style is stripped out by sanitize_html_class
+			$output                 = trim( preg_replace( '/\s\s+/', ' ', $output ), ' ' );
 			$instance['menu_class'] = $output;
 
 			return $output;
@@ -204,7 +204,7 @@ if ( ! class_exists( 'Better_Menu_Widget' ) ) {
 					type="text" class="widefat" id="<?php echo $this->get_field_id( 'menu_class' ); ?>"
 					name="<?php echo $this->get_field_name( 'menu_class' ); ?>"
 					value="<?php echo esc_attr( $menu_class ); ?>"/>
-				<small><?php _e( 'CSS classes to use for the ul menu element.', 'better-menu-widget' ); ?></small>
+				<small><?php _e( 'CSS classes to use for the ul menu element. Separate classes by a space.', 'better-menu-widget' ); ?></small>
 			</p>
 			<p class="credits">
 				<small><?php _e( 'Developed by', 'better-menu-widget' ); ?> <a href="http://traceyholinka.com/"
