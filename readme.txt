@@ -2,9 +2,9 @@
 Contributors: traceyholinka
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7TQVKUXW68UHQ
 Tags: widget, menus, navigation
-Requires at least: 4.5
+Requires at least: 4.5.1
 Tested up to: 4.9
-Stable tag: 1.5
+Stable tag: 1.5.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,8 +24,8 @@ Based on the core WordPress Custom Menu widget.
 
 = Plugin's Official Site =
 
-* [Overview](http://traceyholinka.com/wordpress-plugins/better-menu-widget/)
-* [Changelog](http://traceyholinka.com/wordpress-plugins/better-menu-widget/changelog/)
+* [Overview](https://wordpress.org/plugins/better-menu-widget/)
+* [Changelog](https://github.com/TraceyHolinka/better-menu-widget/blob/master/changelog.md)
 
 == Installation ==
 
