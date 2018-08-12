@@ -8,7 +8,7 @@ A Custom Menu widget that adds a custom url to the widget title and adds a custo
 
 Based on the core WordPress Custom Menu widget.
 
-## Options =
+## Options
 
 * Custom title URL
 * Custom CSS class
