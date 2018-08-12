@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.1
+
+Update site urls.
+
 ## 1.5
 
 Added ability for multiple CSS classes. Thanks to [Joe Buckle](https://wordpress.org/support/profile/bambattajb).
