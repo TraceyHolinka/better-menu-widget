@@ -2,7 +2,7 @@
 Contributors: traceyholinka
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7TQVKUXW68UHQ
 Tags: widget, menus, navigation
-Requires at least: 4.5.1
+Requires at least: 4.5
 Tested up to: 4.9
 Stable tag: 1.5.1
 License: GPLv2
@@ -62,6 +62,10 @@ You can style a Better Menu Widget by adding the default menu class `sub-menu` t
 3. Front-end view of Better Custom Menu widget
 
 == Changelog ==
+
+= 1.5.1 =
+
+Update site urls.
 
 = 1.5 =
 
