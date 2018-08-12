@@ -3,7 +3,7 @@
  * Plugin Name:  Better Menu Widget
  * Plugin URI:   http://traceyholinka.com/wordpress-plugins/better-menu-widget/
  * Description:  Better Menu Widget makes it easy to customize your menu widgets by adding css styles and a heading link.
- * Version:      1.5
+ * Version:      1.5.1
  * Author:       Tracey Holinka
  * Author URI:   http://traceyholinka.com
  * Author Email: tracey.holinka@gmail.com
